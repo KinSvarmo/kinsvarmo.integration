@@ -1,0 +1,305 @@
+/* ─── Layout ──────────────────────────────────────────────────────────────── */
+
+.docs-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.docs-sidebar {
+  position: sticky;
+  top: 96px;
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .docs-grid {
+    grid-template-columns: 1fr;
+  }
+  .docs-sidebar {
+    display: none;
+  }
+  .docs-mobile-toc {
+    display: block;
+  }
+}
+
+/* ─── Mobile TOC ──────────────────────────────────────────────────────────── */
+
+.docs-mobile-toc {
+  display: none;
+  margin-bottom: 32px;
+}
+
+.docs-mobile-toc select {
+  width: 100%;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 10px 14px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.docs-mobile-toc select:focus {
+  border-color: var(--teal);
+}
+
+/* ─── Section heading ─────────────────────────────────────────────────────── */
+
+.docs-section-title {
+  position: relative;
+  padding-left: 14px;
+  font-size: 1.3rem;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.docs-section-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 3px;
+  bottom: 3px;
+  width: 3px;
+  border-radius: 999px;
+  background: var(--teal);
+  box-shadow: 0 0 8px var(--teal-glow);
+}
+
+/* ─── Content typography ──────────────────────────────────────────────────── */
+
+.docs-content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-size: 0.9rem;
+  color: var(--text-2);
+  line-height: 1.7;
+}
+
+.docs-content p {
+  line-height: 1.7;
+}
+
+.docs-content ul,
+.docs-content ol {
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.docs-content li {
+  line-height: 1.65;
+}
+
+.docs-content li::marker {
+  color: var(--teal);
+}
+
+.docs-content strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.docs-content code {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.82em;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  color: var(--teal);
+  white-space: nowrap;
+}
+
+/* ─── Code block ──────────────────────────────────────────────────────────── */
+
+.docs-code-block {
+  position: relative;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.docs-code-block pre {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.82rem;
+  color: var(--text-2);
+  padding: 16px 20px;
+  padding-right: 72px; /* space for copy button */
+  line-height: 1.9;
+  overflow-x: auto;
+  margin: 0;
+  white-space: pre;
+}
+
+.docs-copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: "Inter", sans-serif;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all 0.15s;
+  line-height: 1.5;
+}
+
+.docs-copy-btn:hover {
+  background: var(--surface-hov);
+  color: var(--text);
+  border-color: var(--border-hov);
+}
+
+.docs-copy-btn.copied {
+  color: var(--teal);
+  border-color: rgba(0, 212, 170, 0.4);
+  background: var(--teal-dim);
+}
+
+/* ─── API reference ───────────────────────────────────────────────────────── */
+
+.docs-api-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.docs-api-row {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  flex-wrap: wrap;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.8rem;
+  padding: 8px 14px;
+  background: var(--bg-raised);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  transition: border-color 0.15s;
+}
+
+.docs-api-row:hover {
+  border-color: var(--border-hov);
+}
+
+.docs-api-method {
+  min-width: 44px;
+  flex-shrink: 0;
+  font-weight: 700;
+}
+
+.docs-api-method-get  { color: var(--teal); }
+.docs-api-method-post { color: #a78bfa; }
+
+.docs-api-path { color: var(--text); }
+
+.docs-api-param { color: var(--amber); }
+
+.docs-api-desc {
+  color: var(--text-3);
+  font-family: "Inter", sans-serif;
+  font-size: 0.82rem;
+  margin-left: auto;
+}
+
+/* ─── Contracts ───────────────────────────────────────────────────────────── */
+
+.docs-contract-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 16px;
+  background: var(--bg-raised);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.docs-contract-header {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.docs-contract-name {
+  color: var(--teal);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.docs-contract-desc {
+  color: var(--text-2);
+  font-size: 0.85rem;
+}
+
+.docs-contract-address {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.74rem;
+  color: var(--text-3);
+  word-break: break-all;
+}
+
+.docs-contract-note {
+  margin-top: 12px;
+  font-size: 0.82rem;
+  color: var(--text-3);
+  line-height: 1.5;
+}
+
+/* ─── Job states ──────────────────────────────────────────────────────────── */
+
+.docs-states-flow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 16px 0;
+}
+
+/* ─── Execution diagram ───────────────────────────────────────────────────── */
+
+.docs-flow-diagram {
+  display: grid;
+  gap: 4px;
+  margin-top: 16px;
+  padding: 14px 20px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.8rem;
+  color: var(--text-2);
+  overflow-x: auto;
+}
+
+.docs-flow-row {
+  display: grid;
+  grid-template-columns: 140px 100px 1fr;
+  gap: 0;
+  line-height: 1.8;
+  white-space: nowrap;
+}
+
+.docs-flow-event  { color: var(--teal); }
+.docs-flow-agent  { color: #a78bfa; }
+.docs-flow-result { color: var(--text-2); }

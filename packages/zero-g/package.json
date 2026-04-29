@@ -1,0 +1,21 @@
+{
+  "name": "@kingsvarmo/zero-g",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "lint": "tsc --noEmit",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@0gfoundation/0g-ts-sdk": "^1.2.6",
+    "ethers": "^6.16.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4"
+  }
+}

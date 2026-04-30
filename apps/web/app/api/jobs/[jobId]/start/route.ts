@@ -276,7 +276,7 @@ async function runAnalysisWorkflow(jobId: string, keeperhubRunId: string) {
       payload: { resultId },
     });
 
-    await setResult(resultId, {
+    await setResult(jobId, {
       id: resultId,
       jobId,
       summary: "Analysis completed. " + analysisOutput,

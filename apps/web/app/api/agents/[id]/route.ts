@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
-import { seededAgents } from "@kingsvarmo/shared";
+import { agentStore } from "../store";
 
 export async function GET(
   _req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const agent = seededAgents.find(
+  const agent = agentStore.find(
     (candidate) =>
       candidate.id === id ||
       candidate.slug === id ||
@@ -19,4 +19,3 @@ export async function GET(
 
   return NextResponse.json({ agent });
 }
-

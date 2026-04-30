@@ -2,6 +2,8 @@ import { createConnector, type CreateConnectorFn } from "wagmi";
 import { getAddress, numberToHex, type Address } from "viem";
 
 type EthereumProvider = {
+  isMetaMask?: boolean;
+  providers?: EthereumProvider[];
   request(args: { method: string; params?: unknown[] }): Promise<unknown>;
 };
 
@@ -48,11 +50,13 @@ export function browserInjected(): CreateConnectorFn<EthereumProvider> {
       return typeof chainId === "string" ? Number(chainId) : config.chains[0].id;
     },
     async getProvider() {
-      if (typeof window === "undefined" || !window.ethereum) {
-        throw new Error("No injected wallet was found");
+      const provider = await waitForInjectedProvider();
+
+      if (!provider) {
+        throw new Error("No injected wallet was found. Open this page in the Chrome profile where MetaMask is installed and enabled.");
       }
 
-      return window.ethereum;
+      return provider;
     },
     async isAuthorized() {
       try {
@@ -118,6 +122,34 @@ export function browserInjected(): CreateConnectorFn<EthereumProvider> {
       config.emitter.emit("disconnect");
     }
   }));
+}
+
+async function waitForInjectedProvider(): Promise<EthereumProvider | undefined> {
+  if (typeof window === "undefined") {
+    return undefined;
+  }
+
+  for (let attempt = 0; attempt < 20; attempt += 1) {
+    const provider = selectInjectedProvider(window.ethereum);
+
+    if (provider) {
+      return provider;
+    }
+
+    await new Promise((resolve) => window.setTimeout(resolve, 100));
+  }
+
+  return undefined;
+}
+
+function selectInjectedProvider(
+  provider: EthereumProvider | undefined
+): EthereumProvider | undefined {
+  if (!provider) {
+    return undefined;
+  }
+
+  return provider.providers?.find((candidate) => candidate.isMetaMask) ?? provider;
 }
 
 function normalizeAccounts(accounts: unknown): readonly Address[] {

@@ -1,5 +1,5 @@
-import type { AgentListing } from "@kingsvarmo/shared";
 import { AgentsMarketplaceClient } from "./AgentsMarketplaceClient";
+import { agentStore } from "../api/agents/store";
 
 export const metadata = {
   title: "Marketplace - KinSvarmo",
@@ -8,20 +8,6 @@ export const metadata = {
 
 export const dynamic = "force-dynamic";
 
-async function fetchAgents(): Promise<AgentListing[]> {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"}/api/agents`, {
-      cache: "no-store",
-    });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return data.agents ?? [];
-  } catch {
-    return [];
-  }
-}
-
-export default async function AgentsPage() {
-  const agents = await fetchAgents();
-  return <AgentsMarketplaceClient agents={agents} />;
+export default function AgentsPage() {
+  return <AgentsMarketplaceClient agents={[...agentStore]} />;
 }
